@@ -1,0 +1,140 @@
+import { motion } from 'framer-motion';
+import { Monitor, Moon, Sun } from 'lucide-react';
+import { useState } from 'react';
+
+export function Footer() {
+  const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('system');
+
+  const footerLinks = {
+    Platform: ['Diagnose', 'Fix', 'Prevent', 'Get Answers'],
+    Company: ['Pricing', 'Careers', 'Resources'],
+    Legal: ['Terms', 'Privacy'],
+    Connect: ['X (Twitter)', 'LinkedIn', 'GitHub'],
+  };
+
+  return (
+    <footer className="relative bg-gradient-to-b from-[#001a4d] to-[#000428] pt-16 pb-8 overflow-hidden">
+      {/* Grid overlay */}
+      <div 
+        className="absolute inset-0 opacity-5"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: '100px 100px'
+        }}
+      />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Links grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+          {Object.entries(footerLinks).map(([category, links], categoryIndex) => (
+            <motion.div
+              key={category}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: categoryIndex * 0.1 }}
+            >
+              <h3 className="text-sm font-medium text-slate-400 mb-4">{category}</h3>
+              <ul className="space-y-3">
+                {links.map((link) => (
+                  <li key={link}>
+                    <a 
+                      href="#" 
+                      className="text-sm text-white/80 hover:text-white transition-colors"
+                    >
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Status indicator */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="flex items-center gap-2 mb-8"
+        >
+          <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+          <span className="text-sm text-white/80">All systems normal</span>
+        </motion.div>
+
+        {/* Bottom bar */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-8 border-t border-white/10"
+        >
+          {/* Compliance */}
+          <div className="flex items-center gap-4 text-sm text-slate-400">
+            <span>Yes, of course we're...</span>
+            <span className="flex items-center gap-1">
+              <span className="text-slate-300">SOC 2</span>,
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="text-slate-300">GDPR</span>, and
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="text-slate-300">HIPAA</span> compliant
+            </span>
+          </div>
+
+          {/* Theme toggle */}
+          <div className="flex items-center gap-1 p-1 bg-white/10 rounded-lg">
+            <button
+              onClick={() => setTheme('light')}
+              className={`p-2 rounded-md transition-colors ${theme === 'light' ? 'bg-white/20 text-white' : 'text-white/50 hover:text-white'}`}
+            >
+              <Sun className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setTheme('dark')}
+              className={`p-2 rounded-md transition-colors ${theme === 'dark' ? 'bg-white/20 text-white' : 'text-white/50 hover:text-white'}`}
+            >
+              <Moon className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setTheme('system')}
+              className={`p-2 rounded-md transition-colors ${theme === 'system' ? 'bg-white/20 text-white' : 'text-white/50 hover:text-white'}`}
+            >
+              <Monitor className="w-4 h-4" />
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Large logo */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+          className="mt-16 flex items-center justify-center gap-6"
+        >
+          <div className="flex gap-1">
+            <div className="grid grid-cols-2 gap-1">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="w-4 h-4 rounded-full bg-gradient-to-br from-white/40 to-white/20" />
+              ))}
+            </div>
+            <div className="grid grid-cols-2 gap-1 ml-1">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="w-4 h-4 rounded-full bg-gradient-to-br from-white/40 to-white/20" />
+              ))}
+            </div>
+          </div>
+          <span className="text-6xl sm:text-8xl font-medium text-transparent bg-clip-text bg-gradient-to-b from-white/40 to-white/10">
+            Antimetal
+          </span>
+        </motion.div>
+      </div>
+    </footer>
+  );
+}
